@@ -9,6 +9,7 @@ import android.widget._
 import com.spindance.demo.scala.data.{TodoSManager, TodoSTask}
 import org.scaloid.common._
 import com.spindance.demo.R
+import language.postfixOps
 
 /** Scaloid Activity for viewing list of TodoTasks */
 class TodoListSActivity extends SActivity with OnItemClickListener {

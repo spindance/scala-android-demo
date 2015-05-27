@@ -7,10 +7,11 @@ import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
 import android.text.TextUtils
 import android.view.{View, MenuItem, Gravity}
-import android.widget.{DatePicker}
+import android.widget.DatePicker
 import com.spindance.demo.scala.data.{TodoSTask, TodoSManager}
 import org.scaloid.common._
 import com.spindance.demo.R
+import language.postfixOps
 
 /** Scaloid Activity for adding or editing a TodoTask */
 class TodoItemSActivity extends SActivity {

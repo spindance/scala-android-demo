@@ -8,6 +8,7 @@ import android.widget.ImageView.ScaleType
 import com.spindance.demo.R
 import com.spindance.demo.scala.data.{TodoSManager, TodoSTask}
 import org.scaloid.common._
+import language.postfixOps
 
 import scala.concurrent.Future
 import AndroidExecutionContext.exec
