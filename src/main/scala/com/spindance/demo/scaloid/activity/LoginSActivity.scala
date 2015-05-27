@@ -60,7 +60,7 @@ class LoginSActivity extends SActivity {
   private def performLogin(uname: String, pass: String) = {
     val dlg = ProgressDialog.show(this, null, getString(R.string.busy_login), true, true)
 
-    val f:Future[Array[TodoSTask]] = Future {
+    val f: Future[List[TodoSTask]] = Future {
       loadTasks
     }
 
@@ -78,9 +78,9 @@ class LoginSActivity extends SActivity {
     }
   }
 
-  private def loadTasks: Array[TodoSTask] = {
+  private def loadTasks: List[TodoSTask] = {
     Thread.sleep(1000)   // fake some network delay
-    Array(TodoSTask("Mow Lawn", 1, daysFromToday(2)),
+    List(TodoSTask("Mow Lawn", 1, daysFromToday(2)),
       TodoSTask("Do Taxes", 3, daysFromToday(4)),
       TodoSTask("Grocery Shopping", 2, daysFromToday(3)))
   }
