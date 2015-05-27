@@ -22,7 +22,7 @@ class TodoItemSActivity extends SActivity {
   private var mTaskName: SEditText = null
 
   private val mDateFormat: DateFormat = DateFormat.getDateInstance
-  private var mTask:TodoSTask = null
+  private var mTask:Option[TodoSTask] = None
 
   onCreate {
     val pad: Int = getResources.getDimensionPixelSize(R.dimen.layout_padding)
@@ -86,8 +86,6 @@ class TodoItemSActivity extends SActivity {
     dlg.show()
   }
 
-  private def isEditMode = { mTask != null }
-
   private def deletePressed() = {
     new AlertDialogBuilder(null, getString(R.string.delete_confirmation)) {
       positiveButton(R.string.ok, deleteConfirmed())
@@ -96,32 +94,34 @@ class TodoItemSActivity extends SActivity {
   }
 
   private def deleteConfirmed() = {
-    TodoSManager.deleteTask(mTask.id)
+    for (t <- mTask) { TodoSManager.deleteTask(t.id) }
     finish()
   }
 
   private def savePressed() = {
     if (!TextUtils.isEmpty(mTaskName.getText.toString)) {
-      if (isEditMode) {
-        mTask.dueDate = mDateFormat.parse(mDueDateButton.getText.toString)
-        mTask.priority = mPrioritySpinner.getSelectedItemPosition
-        mTask.taskName = mTaskName.getText.toString
-      } else {
-        TodoSManager.addTask(TodoSTask(mTaskName.getText.toString, mPrioritySpinner.getSelectedItemPosition, mDateFormat.parse(mDueDateButton.getText.toString)))
+      mTask match {
+        case Some(t) =>
+          t.dueDate = mDateFormat.parse(mDueDateButton.getText.toString)
+          t.priority = mPrioritySpinner.getSelectedItemPosition
+          t.taskName = mTaskName.getText.toString
+        case None =>
+          TodoSManager.addTask(TodoSTask(mTaskName.getText.toString, mPrioritySpinner.getSelectedItemPosition, mDateFormat.parse(mDueDateButton.getText.toString)))
       }
     }
     finish()
   }
 
   private def initView() = {
-    if (isEditMode) {
-      setTitle(R.string.edit_task)
-      mTaskName.setText(mTask.taskName)
-      mPrioritySpinner.setSelection(mTask.priority)
-      mDueDateButton.setText(mDateFormat.format(mTask.dueDate))
-    } else {
-      setTitle(R.string.create_task)
-      mDeleteButton.setVisibility(View.GONE)
+    mTask match {
+      case Some(t) =>
+        setTitle(R.string.edit_task)
+        mTaskName.setText(t.taskName)
+        mPrioritySpinner.setSelection(t.priority)
+        mDueDateButton.setText(mDateFormat.format(t.dueDate))
+      case None =>
+        setTitle(R.string.create_task)
+        mDeleteButton.setVisibility(View.GONE)
     }
   }
 

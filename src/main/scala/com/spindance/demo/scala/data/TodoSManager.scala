@@ -17,8 +17,8 @@ object TodoSManager {
     taskList += task
   }
 
-  def getTask(id: Int): TodoSTask = {
-    taskList find (_.id == id) getOrElse null
+  def getTask(id: Int): Option[TodoSTask] = {
+    taskList find (_.id == id)
   }
 
   def deleteTask(id: Int): Unit = {
