@@ -35,12 +35,12 @@ class TodoItemSActivity extends SActivity {
                   }.wrap.<<.marginBottom(pad).>>
         this += new SLinearLayout {
                   STextView(R.string.due_date).wrap.marginRight(pad)
-                  mDueDateButton = SButton(mDateFormat.format(new Date()), dueDatePressed).wrap
+                  mDueDateButton = SButton(mDateFormat.format(new Date()), dueDatePressed()).wrap
                 }.wrap.<<.marginBottom(pad).>>
         this += new SLinearLayout {
-          SButton(R.string.save, savePressed)
+          SButton(R.string.save, savePressed())
               .padding(30 dip, 0, 30 dip, 0).background(R.drawable.bg_selector)
-          mDeleteButton = SButton(R.string.delete, deletePressed).<<.marginLeft(20 dip).>>
+          mDeleteButton = SButton(R.string.delete, deletePressed()).<<.marginLeft(20 dip).>>
               .padding(30 dip, 0, 30 dip, 0).background(R.drawable.bg_selector)
         }.wrap.<<.Gravity(Gravity.CENTER_HORIZONTAL).>>
       }.backgroundResource(R.color.background).fill.padding(pad)
@@ -53,42 +53,42 @@ class TodoItemSActivity extends SActivity {
 
     getActionBar.setDisplayHomeAsUpEnabled(true)
 
-    initView
+    initView()
   }
 
   override def onOptionsItemSelected(item: MenuItem): Boolean = {
     item.getItemId match {
       case android.R.id.home =>
-        finish
+        finish()
         return true
       case _ =>
         return super.onOptionsItemSelected(item)
     }
   }
 
-  private def dueDatePressed = {
+  private def dueDatePressed() = {
     val cal: GregorianCalendar = new GregorianCalendar
     cal.setTime(mDateFormat.parse(mDueDateButton.getText.toString))
 
     val dlg: DatePickerDialog = new DatePickerDialog(this, dateSelected, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH))
-    dlg.show
+    dlg.show()
   }
 
   private def isEditMode = { mTask != null }
 
-  private def deletePressed = {
+  private def deletePressed() = {
     new AlertDialogBuilder(null, getString(R.string.delete_confirmation)) {
-      positiveButton(R.string.ok, deleteConfirmed)
+      positiveButton(R.string.ok, deleteConfirmed())
       negativeButton(R.string.cancel)
     }.show()
   }
 
-  private def deleteConfirmed = {
+  private def deleteConfirmed() = {
     TodoSManager.deleteTask(mTask.id)
-    finish
+    finish()
   }
 
-  private def savePressed = {
+  private def savePressed() = {
     if (!TextUtils.isEmpty(mTaskName.getText.toString)) {
       if (isEditMode) {
         mTask.dueDate = mDateFormat.parse(mDueDateButton.getText.toString)
@@ -99,10 +99,10 @@ class TodoItemSActivity extends SActivity {
         TodoSManager.addTask(TodoSTask(mTaskName.getText.toString, mPrioritySpinner.getSelectedItemPosition, mDateFormat.parse(mDueDateButton.getText.toString)))
       }
     }
-    finish
+    finish()
   }
 
-  private def initView = {
+  private def initView() = {
     if (isEditMode) {
       setTitle(R.string.edit_task)
       mTaskName.setText(mTask.taskName)

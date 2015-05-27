@@ -14,15 +14,15 @@ class LaunchDemoSActivity extends SActivity {
 
   onCreate {
     setContentView(R.layout.activity_launch)
-    find[Button](R.id.demo_java).onClick(loginJava)
-    find[Button](R.id.demo_scaloid).onClick(loginScaloid)
+    find[Button](R.id.demo_java).onClick(loginJava())
+    find[Button](R.id.demo_scaloid).onClick(loginScaloid())
   }
 
-  private def loginJava = {
+  private def loginJava() = {
     startActivity(SIntent[LoginActivity])
   }
 
-  private def loginScaloid = {
+  private def loginScaloid() = {
     startActivity(SIntent[LoginSActivity])
   }
 }

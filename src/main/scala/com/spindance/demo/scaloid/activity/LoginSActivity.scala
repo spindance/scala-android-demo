@@ -43,13 +43,13 @@ class LoginSActivity extends SActivity {
     }
 
     f.onSuccess {
-      case tasks => dlg.dismiss
+      case tasks => dlg.dismiss()
         tasks.foreach(TodoSManager.addTask(_))
         startActivity(SIntent[TodoListSActivity])
-        finish
+        finish()
     }
     f.onFailure {
-      case t => dlg.dismiss
+      case t => dlg.dismiss()
                 toast("Failure: " + t.getMessage)
     }
   }

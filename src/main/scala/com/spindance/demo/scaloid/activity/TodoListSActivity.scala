@@ -35,13 +35,13 @@ class TodoListSActivity extends SActivity with OnItemClickListener {
 
     val adapter = SArrayAdapter(getResources.getStringArray(R.array.sort_options)).dropDownStyle(_.textSize(20 dip).padding(15 dip))
     mSortBy.setAdapter(adapter)
-    mSortBy.onItemSelected(sortList)
+    mSortBy.onItemSelected(sortList())
 
     mListView.setOnItemClickListener(this)
   }
 
   onResume {
-    sortList
+    sortList()
   }
 
   override def onCreateOptionsMenu(menu: Menu): Boolean = {
@@ -52,7 +52,7 @@ class TodoListSActivity extends SActivity with OnItemClickListener {
   override def onOptionsItemSelected(item: MenuItem): Boolean = {
     item.getItemId match {
       case R.id.action_newtask =>
-        showNewTask
+        showNewTask()
         return true
       case _ =>
         return super.onOptionsItemSelected(item)
@@ -64,7 +64,7 @@ class TodoListSActivity extends SActivity with OnItemClickListener {
     new Intent().put(task_id).start[TodoItemSActivity]
   }
 
-  private def sortList = {
+  private def sortList() = {
 
     mTaskList = TodoSManager.getTodoList
     if (mSortBy.getSelectedItemPosition == 0) {
@@ -77,7 +77,7 @@ class TodoListSActivity extends SActivity with OnItemClickListener {
     mListView.setAdapter(new TodoTaskAdapter(mTaskList))
   }
 
-  private def showNewTask = {
+  private def showNewTask() = {
     startActivity(SIntent[TodoItemSActivity])
   }
 
