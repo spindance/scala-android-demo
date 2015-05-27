@@ -2,6 +2,9 @@ package com.spindance.demo.data;
 
 import java.util.Date;
 
+/**
+ * Java Task class
+ */
 public class TodoTask {
     private String mTaskName;
     private int mPriority;
