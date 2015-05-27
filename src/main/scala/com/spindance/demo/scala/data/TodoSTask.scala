@@ -3,8 +3,7 @@ package com.spindance.demo.scala.data
 import java.util.Date
 
 /** Scala Task class */
-class TodoSTask(var taskName: String, var priority: Int, var dueDate: Date, val id: Int) {
-}
+case class TodoSTask(var taskName: String, var priority: Int, var dueDate: Date, id: Int)
 
 /** Simple companion object to maintain id counter and a factory for creating tasks */
 object TodoSTask {
