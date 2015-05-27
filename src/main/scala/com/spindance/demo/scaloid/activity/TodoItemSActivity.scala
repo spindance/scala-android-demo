@@ -29,20 +29,31 @@ class TodoItemSActivity extends SActivity {
 
     contentView = new SFrameLayout {
       this += new SVerticalLayout {
-        mTaskName = SEditText().<<.marginBottom(pad).>>.hint(R.string.task_name).fw
+        mTaskName = SEditText()
+          .<<.marginBottom(pad).>>
+          .hint(R.string.task_name)
+          .fw
+
         this += new SLinearLayout {
                     STextView(R.string.priority).wrap.marginRight(pad)
                     mPrioritySpinner = SSpinner().wrap.prompt(R.string.priority)
                   }.wrap.<<.marginBottom(pad).>>
+
         this += new SLinearLayout {
                   STextView(R.string.due_date).wrap.marginRight(pad)
                   mDueDateButton = SButton(mDateFormat.format(new Date()), dueDatePressed()).wrap
                 }.wrap.<<.marginBottom(pad).>>
+
         this += new SLinearLayout {
           SButton(R.string.save, savePressed())
-              .padding(30 dip, 0, 30 dip, 0).background(R.drawable.bg_selector)
-          mDeleteButton = SButton(R.string.delete, deletePressed()).<<.marginLeft(20 dip).>>
-              .padding(30 dip, 0, 30 dip, 0).background(R.drawable.bg_selector)
+            .padding(30 dip, 0, 30 dip, 0)
+            .background(R.drawable.bg_selector)
+
+          mDeleteButton = SButton(R.string.delete, deletePressed())
+            .<<.marginLeft(20 dip).>>
+            .padding(30 dip, 0, 30 dip, 0)
+            .background(R.drawable.bg_selector)
+
         }.wrap.<<.Gravity(Gravity.CENTER_HORIZONTAL).>>
       }.backgroundResource(R.color.background).fill.padding(pad)
     }

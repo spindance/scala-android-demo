@@ -29,8 +29,14 @@ class TodoListSActivity extends SActivity with OnItemClickListener {
         STextView(R.string.sort_by).wrap
         mSortBy = SSpinner().wrap
       }.padding(0, 0, 0, 10 dip).orientation(HORIZONTAL)
-      mListView = SListView().fw.backgroundResource(R.drawable.rounded_white_rectangle).divider(R.color.black)
-                             .dividerHeight(1 dip).choiceMode(AbsListView.CHOICE_MODE_SINGLE)
+
+      mListView = SListView()
+        .fw
+        .backgroundResource(R.drawable.rounded_white_rectangle)
+        .divider(R.color.black)
+        .dividerHeight(1 dip)
+        .choiceMode(AbsListView.CHOICE_MODE_SINGLE)
+
     }.padding(pad).backgroundResource(R.color.background)
 
 
