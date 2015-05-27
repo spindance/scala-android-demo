@@ -14,8 +14,8 @@ import language.postfixOps
 /** Scaloid Activity for viewing list of TodoTasks */
 class TodoListSActivity extends SActivity with OnItemClickListener {
 
-  private var mSortBy:SSpinner = null
-  private var mListView:SListView = null
+  private var mSortBy:SSpinner = _
+  private var mListView:SListView = _
 
   private val mDateFormat: DateFormat = DateFormat.getDateInstance
   private var mTaskList: Array[TodoSTask] = Array()

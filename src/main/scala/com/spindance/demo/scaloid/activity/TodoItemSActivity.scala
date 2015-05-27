@@ -16,13 +16,13 @@ import language.postfixOps
 /** Scaloid Activity for adding or editing a TodoTask */
 class TodoItemSActivity extends SActivity {
 
-  private var mPrioritySpinner: SSpinner = null
-  private var mDueDateButton: SButton = null
-  private var mDeleteButton: SButton = null
-  private var mTaskName: SEditText = null
+  private var mPrioritySpinner: SSpinner = _
+  private var mDueDateButton: SButton = _
+  private var mDeleteButton: SButton = _
+  private var mTaskName: SEditText = _
 
   private val mDateFormat: DateFormat = DateFormat.getDateInstance
-  private var mTask:Option[TodoSTask] = None
+  private var mTask: Option[TodoSTask] = None
 
   onCreate {
     val pad: Int = getResources.getDimensionPixelSize(R.dimen.layout_padding)
