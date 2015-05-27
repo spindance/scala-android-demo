@@ -3,20 +3,21 @@ package com.spindance.demo.activity;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 
 import com.spindance.demo.R;
+import com.spindance.demo.data.TodoManager;
+import com.spindance.demo.data.TodoTask;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Standard Java Activity for Login to task list demo app
@@ -47,28 +48,43 @@ public class LoginActivity extends Activity {
 
 
     private void performLogin(String email, String password) {
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url = getString(R.string.dummy_login_url);
-
         final ProgressDialog dlg = ProgressDialog.show(this, null, getString(R.string.busy_login), true, true);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        dlg.dismiss();
-                        startActivity(new Intent(LoginActivity.this, TodoListActivity.class));
-                        finish();
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        dlg.dismiss();
-                        Toast.makeText(LoginActivity.this, "Failed: " + error.getMessage(), Toast.LENGTH_LONG).show();
-                    }
-                });
+        AsyncTask<Void, Void, List<TodoTask>> loadingTask = new AsyncTask<Void, Void, List<TodoTask>>() {
+            @Override
+            protected List<TodoTask> doInBackground(Void... params) {
+                return loadTasks();
+            }
 
-        queue.add(stringRequest);
+            @Override
+            protected void onPostExecute(List<TodoTask> todoTasks) {
+                dlg.dismiss();
+                for (TodoTask task : todoTasks) {
+                    TodoManager.addItem(task);
+                }
+                startActivity(new Intent(LoginActivity.this, TodoListActivity.class));
+                finish();
+            }
+
+            @Override
+            protected void onCancelled(List<TodoTask> todoTasks) {
+                dlg.dismiss();
+            }
+        };
+
+        loadingTask.execute();
+    }
+
+    private List<TodoTask> loadTasks() {
+        try { Thread.sleep(1000); } catch (Exception e) {}
+        List<TodoTask> taskList = new ArrayList<TodoTask>();
+        taskList.add(new TodoTask("Grocery Shopping", 2, daysFromToday(3)));
+        taskList.add(new TodoTask("Mow Lawn", 1, daysFromToday(5)));
+        taskList.add(new TodoTask("Do Taxes", 3, daysFromToday(2)));
+        return taskList;
+    }
+
+    private static Date daysFromToday(int days) {
+        return new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24 * days);
     }
 }

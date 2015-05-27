@@ -1,9 +1,12 @@
 package com.spindance.demo.scaloid.activity
 
+import java.util.Date
+
 import android.app.ProgressDialog
 import android.view.Gravity
 import android.widget.ImageView.ScaleType
 import com.spindance.demo.R
+import com.spindance.demo.scala.data.{TodoSManager, TodoSTask}
 import org.scaloid.common._
 
 import scala.concurrent.Future
@@ -32,13 +35,15 @@ class LoginSActivity extends SActivity {
   def performLogin(uname:String, pass:String) = {
     val dlg = ProgressDialog.show(this, null, getString(R.string.busy_login), true, true)
 
-    val f:Future[Unit] = Future {
-      Thread.sleep(1000)   // fake some network delay
-      scala.io.Source.fromURL(getString(R.string.dummy_login_url)).mkString
+    val f:Future[Array[TodoSTask]] = Future {
+      loadTasks
     }
 
     f.onSuccess {
-      case _ => dlg.dismiss
+      case tasks => dlg.dismiss
+        for (task <- tasks) {
+          TodoSManager.addTask(task)
+        }
         startActivity(SIntent[TodoListSActivity])
         finish
     }
@@ -46,5 +51,16 @@ class LoginSActivity extends SActivity {
       case t => dlg.dismiss
                 toast("Failure: " + t.getMessage)
     }
+  }
+
+  def loadTasks: Array[TodoSTask] = {
+    Thread.sleep(1000)   // fake some network delay
+    Array(TodoSTask("Mow Lawn", 1, daysFromToday(2)),
+      TodoSTask("Do Taxes", 3, daysFromToday(4)),
+      TodoSTask("Grocery Shopping", 2, daysFromToday(3)))
+  }
+
+  private def daysFromToday(days: Int): Date = {
+    return new Date(System.currentTimeMillis + 1000 * 60 * 60 * 24 * days)
   }
 }
