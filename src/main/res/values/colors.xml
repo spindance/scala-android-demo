@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="light_blue">#1db6db</color>
+    <color name="white">#ffffff</color>
+    <color name="white_three_quarter">#bbffffff</color>
+    <color name="black">#000000</color>
+    <color name="gray">#999999</color>
+    <color name="background">#5b6cac</color>
+    <color name="darken">#33000000</color>
+    <color name="color_priority_0">#eeeeee</color>
+    <color name="color_priority_1">#dddddd</color>
+    <color name="color_priority_2">#cccccc</color>
+    <color name="color_priority_3">#bbbbbb</color>
+    <color name="color_priority_4">#aaaaaa</color>
+</resources>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="app_name">SpinDance scaloid demo</string>
+	<string name="goto_java">Java demo</string>
+	<string name="goto_scaloid">Scaloid demo</string>
+	<string name="goto_macroid">Macroid demo</string>
+	<string name="login_title_java">Demo - Java</string>
+	<string name="login_title_scaloid">Demo - Scaloid</string>
+	<string name="login_title_macroid">Demo - Macroid</string>
+	<string name="password">Password</string>
+	<string name="email">Email</string>
+	<string name="login">Login</string>
+	<string name="busy_login">Logging in...</string>
+	<string name="dummy_login_url">http://urlecho.appspot.com/echo?status=200&amp;Content-Type=text%2Fhtml&amp;body=Successful%20login!</string>
+    <string name="login_intro_msg">No real login required, click \'Login\' with any email and password</string>
+
+	<string name="sort_by">Sort by:</string>
+	<string name="due_date">Due date</string>
+	<string name="priority">Priority</string>
+	<string name="task_name">Task name</string>
+	<string name="add_item">Add Item</string>
+	<string name="todo_title">Task List</string>
+	<string name="create_task">Create Task</string>
+    <string name="edit_task">Edit Task</string>
+	<string name="save">Save</string>
+	<string name="delete">Delete</string>
+	<string name="delete_confirmation">Delete this task?</string>
+	<string name="ok">OK</string>
+	<string name="cancel">Cancel</string>
+
+	<array name="sort_options">
+		<item>@string/due_date</item>
+		<item>@string/priority</item>
+	</array>
+
+	<array name="priorities">
+		<item>Low</item>
+		<item>Medium</item>
+		<item>High</item>
+		<item>Required</item>
+	</array>
+
+</resources>
