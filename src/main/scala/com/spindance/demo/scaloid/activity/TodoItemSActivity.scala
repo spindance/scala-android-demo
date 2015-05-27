@@ -61,9 +61,9 @@ class TodoItemSActivity extends SActivity {
     item.getItemId match {
       case android.R.id.home =>
         finish()
-        return true
+        true
       case _ =>
-        return super.onOptionsItemSelected(item)
+        super.onOptionsItemSelected(item)
     }
   }
 
@@ -95,8 +95,7 @@ class TodoItemSActivity extends SActivity {
         mTask.dueDate = mDateFormat.parse(mDueDateButton.getText.toString)
         mTask.priority = mPrioritySpinner.getSelectedItemPosition
         mTask.taskName = mTaskName.getText.toString
-      }
-      else {
+      } else {
         TodoSManager.addTask(TodoSTask(mTaskName.getText.toString, mPrioritySpinner.getSelectedItemPosition, mDateFormat.parse(mDueDateButton.getText.toString)))
       }
     }

@@ -54,9 +54,9 @@ class TodoListSActivity extends SActivity with OnItemClickListener {
     item.getItemId match {
       case R.id.action_newtask =>
         showNewTask()
-        return true
+        true
       case _ =>
-        return super.onOptionsItemSelected(item)
+        super.onOptionsItemSelected(item)
     }
   }
 
@@ -70,8 +70,7 @@ class TodoListSActivity extends SActivity with OnItemClickListener {
     mTaskList = TodoSManager.getTodoList
     if (mSortBy.getSelectedItemPosition == 0) {
       mTaskList = mTaskList.sortBy(_.dueDate)
-    }
-    else {
+    } else {
       mTaskList = mTaskList.sortWith((lhs, rhs) => lhs.priority > rhs.priority)
     }
 
@@ -85,8 +84,9 @@ class TodoListSActivity extends SActivity with OnItemClickListener {
   private class TodoTaskAdapter(itemArray: Array[TodoSTask]) extends ArrayAdapter[TodoSTask](ctx, 0, itemArray) {
     override def getView(position:Int, convertView: View, parent: ViewGroup): View = {
       var result = convertView
-      if (result == null)
+      if (result == null) {
         result = LayoutInflater.from(parent.getContext).inflate(R.layout.todo_listitem, null)
+      }
 
       result.find[TextView](R.id.task_name).setText(getItem(position).taskName)
       result.find[TextView](R.id.due_date).setText(mDateFormat.format(getItem(position).dueDate))

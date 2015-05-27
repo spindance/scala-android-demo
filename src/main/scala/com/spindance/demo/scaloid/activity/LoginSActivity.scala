@@ -45,7 +45,7 @@ class LoginSActivity extends SActivity {
 
     f.onSuccess {
       case tasks => dlg.dismiss()
-        tasks.foreach(TodoSManager.addTask(_))
+        tasks foreach (TodoSManager.addTask(_))
         startActivity(SIntent[TodoListSActivity])
         finish()
     }
@@ -63,6 +63,6 @@ class LoginSActivity extends SActivity {
   }
 
   private def daysFromToday(days: Int): Date = {
-    return new Date(System.currentTimeMillis + 1000 * 60 * 60 * 24 * days)
+    new Date(System.currentTimeMillis + 1000 * 60 * 60 * 24 * days)
   }
 }
