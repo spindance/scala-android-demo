@@ -35,7 +35,7 @@ class LoginSActivity extends SActivity {
   /** Perform (phony) login to the task application. Loads dummy tasks into memory, and when completed
     * launches the activity for viewing the task list
     */
-  private def performLogin(uname:String, pass:String) = {
+  private def performLogin(uname: String, pass: String) = {
     val dlg = ProgressDialog.show(this, null, getString(R.string.busy_login), true, true)
 
     val f:Future[Array[TodoSTask]] = Future {
