@@ -18,10 +18,10 @@ object TodoSManager {
   }
 
   def getTask(id: Int): TodoSTask = {
-    taskList.find(_.id == id).getOrElse(null)
+    taskList find (_.id == id) getOrElse null
   }
 
   def deleteTask(id: Int): Unit = {
-    taskList = taskList.filter( _.id != id)
+    taskList = taskList filter (_.id != id)
   }
 }
