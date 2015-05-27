@@ -46,7 +46,10 @@ public class LoginActivity extends Activity {
         Toast.makeText(this, R.string.login_intro_msg, Toast.LENGTH_LONG).show();
     }
 
-
+    /**
+     * Perform (phony) login to the task application. Loads dummy tasks into memory, and when completed
+     * launches the activity for viewing the task list
+     */
     private void performLogin(String email, String password) {
         final ProgressDialog dlg = ProgressDialog.show(this, null, getString(R.string.busy_login), true, true);
 

@@ -68,7 +68,7 @@ class TodoItemSActivity extends SActivity {
     }
   }
 
-  def dueDatePressed = {
+  private def dueDatePressed = {
     val cal: GregorianCalendar = new GregorianCalendar
     cal.setTime(mDateFormat.parse(mDueDateButton.getText.toString))
 
@@ -76,34 +76,36 @@ class TodoItemSActivity extends SActivity {
     dlg.show
   }
 
-  def deletePressed = {
+  private def isEditMode = { mTask != null }
+
+  private def deletePressed = {
     new AlertDialogBuilder(null, getString(R.string.delete_confirmation)) {
       positiveButton(R.string.ok, deleteConfirmed)
       negativeButton(R.string.cancel)
     }.show()
   }
 
-  def deleteConfirmed = {
+  private def deleteConfirmed = {
     TodoSManager.deleteTask(mTask.id)
     finish
   }
 
-  def savePressed = {
+  private def savePressed = {
     if (!TextUtils.isEmpty(mTaskName.getText.toString)) {
-      if (mTask == null) {
-        TodoSManager.addTask(TodoSTask(mTaskName.getText.toString, mPrioritySpinner.getSelectedItemPosition, mDateFormat.parse(mDueDateButton.getText.toString)))
-      }
-      else {
+      if (isEditMode) {
         mTask.dueDate = mDateFormat.parse(mDueDateButton.getText.toString)
         mTask.priority = mPrioritySpinner.getSelectedItemPosition
         mTask.taskName = mTaskName.getText.toString
+      }
+      else {
+        TodoSManager.addTask(TodoSTask(mTaskName.getText.toString, mPrioritySpinner.getSelectedItemPosition, mDateFormat.parse(mDueDateButton.getText.toString)))
       }
     }
     finish
   }
 
   private def initView = {
-    if (mTask != null) {
+    if (isEditMode) {
       setTitle(R.string.edit_task)
       mTaskName.setText(mTask.taskName)
       mPrioritySpinner.setSelection(mTask.priority)

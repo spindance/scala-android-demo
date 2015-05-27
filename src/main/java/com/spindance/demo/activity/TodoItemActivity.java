@@ -39,11 +39,13 @@ public class TodoItemActivity extends Activity {
     private Button mSave;
     private Button mDelete;
 
+    // Use this for creating a new task
     public static Intent newCreateIntent(Context ctx) {
         Intent intent = new Intent(ctx, TodoItemActivity.class);
         return intent;
     }
 
+    // Use this for editing a task
     public static Intent newEditIntent(Context ctx, int taskId) {
         Intent intent = new Intent(ctx, TodoItemActivity.class);
         intent.putExtra(EXTRA_TASK, taskId);
@@ -62,6 +64,7 @@ public class TodoItemActivity extends Activity {
         mDelete = (Button) findViewById(R.id.delete_button);
 
         mTask = TodoManager.getTask(getIntent().getIntExtra(EXTRA_TASK, -1));
+
         initView();
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -79,14 +82,19 @@ public class TodoItemActivity extends Activity {
         }
     }
 
+    private boolean isEditMode() {
+        return mTask != null;
+    }
+
     private void initView() {
         ActionBar ab = getActionBar();
-        ab.setTitle(mTask == null ? R.string.create_task : R.string.edit_task);
-        if (mTask != null) {
+        if (isEditMode()) {
+            ab.setTitle(R.string.edit_task);
             mName.setText(mTask.getTaskName());
             mPriority.setSelection(mTask.getPriority());
             mDueDate.setText(SimpleDateFormat.getDateInstance().format(mTask.getDueDate()));
         } else {
+            ab.setTitle(R.string.create_task);
             mDueDate.setText(SimpleDateFormat.getDateInstance().format(new Date()));
             mDelete.setVisibility(View.GONE);
         }
@@ -102,13 +110,13 @@ public class TodoItemActivity extends Activity {
         public void onClick(View v) {
             try {
                 Date dueDate = SimpleDateFormat.getDateInstance().parse(mDueDate.getText().toString());
-                if (mTask == null) {
-                    mTask = new TodoTask(mName.getText().toString(), mPriority.getSelectedItemPosition(), dueDate);
-                    TodoManager.addItem(mTask);
-                } else {
+                if (isEditMode()) {
                     mTask.setTaskName(mName.getText().toString());
                     mTask.setDueDate(dueDate);
                     mTask.setPriority(mPriority.getSelectedItemPosition());
+                } else {
+                    mTask = new TodoTask(mName.getText().toString(), mPriority.getSelectedItemPosition(), dueDate);
+                    TodoManager.addItem(mTask);
                 }
             } catch (Exception e) {
                 Log.e(TodoItemActivity.class.getName(), e.getMessage());
@@ -159,7 +167,7 @@ public class TodoItemActivity extends Activity {
         }
     };
 
-    DatePickerDialog.OnDateSetListener dateSelected = new DatePickerDialog.OnDateSetListener() {
+    private DatePickerDialog.OnDateSetListener dateSelected = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
             GregorianCalendar cal = new GregorianCalendar();

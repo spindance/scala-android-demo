@@ -19,11 +19,11 @@ class LaunchDemoSActivity extends SActivity {
     find[Button](R.id.demo_scaloid).setOnClickListener(loginScaloid)
   }
 
-  def loginJava = {
+  private def loginJava = {
     startActivity(SIntent[LoginActivity])
   }
 
-  def loginScaloid = {
+  private def loginScaloid = {
     startActivity(SIntent[LoginSActivity])
   }
 }
