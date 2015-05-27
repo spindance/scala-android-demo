@@ -10,9 +10,7 @@ import com.spindance.demo.scala.data.{TodoSManager, TodoSTask}
 import org.scaloid.common._
 import com.spindance.demo.R
 
-/**
- * Scaloid Activity for viewing list of TodoTasks
- */
+/** Scaloid Activity for viewing list of TodoTasks */
 class TodoListSActivity extends SActivity with OnItemClickListener {
 
   private var mSortBy:SSpinner = null

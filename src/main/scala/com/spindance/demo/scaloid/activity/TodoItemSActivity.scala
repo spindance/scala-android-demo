@@ -12,9 +12,7 @@ import com.spindance.demo.scala.data.{TodoSTask, TodoSManager}
 import org.scaloid.common._
 import com.spindance.demo.R
 
-/**
- * Scaloid Activity for adding or editing a TodoTask
- */
+/** Scaloid Activity for adding or editing a TodoTask */
 class TodoItemSActivity extends SActivity {
 
   private var mPrioritySpinner: SSpinner = null

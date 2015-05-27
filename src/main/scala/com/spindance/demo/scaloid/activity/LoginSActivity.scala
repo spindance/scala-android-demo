@@ -12,9 +12,7 @@ import org.scaloid.common._
 import scala.concurrent.Future
 import AndroidExecutionContext.exec
 
-/**
- * Scaloid Activity for Login to task list demo app
- */
+/** Scaloid Activity for Login to task list demo app */
 class LoginSActivity extends SActivity {
 
   onCreate {
@@ -34,10 +32,9 @@ class LoginSActivity extends SActivity {
     longToast(R.string.login_intro_msg)
   }
 
-  /**
-   * Perform (phony) login to the task application. Loads dummy tasks into memory, and when completed
-   * launches the activity for viewing the task list
-   */
+  /** Perform (phony) login to the task application. Loads dummy tasks into memory, and when completed
+    * launches the activity for viewing the task list
+    */
   private def performLogin(uname:String, pass:String) = {
     val dlg = ProgressDialog.show(this, null, getString(R.string.busy_login), true, true)
 
