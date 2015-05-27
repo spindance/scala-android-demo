@@ -13,7 +13,7 @@ object TodoSManager {
     taskList.toArray
   }
 
-  def addTask(task: TodoSTask) = {
+  def addTask(task: TodoSTask): Unit = {
     taskList += task
   }
 

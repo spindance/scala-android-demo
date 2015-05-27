@@ -44,7 +44,7 @@ class TodoListSActivity extends SActivity with OnItemClickListener {
     sortList
   }
 
-  override def onCreateOptionsMenu(menu: Menu) = {
+  override def onCreateOptionsMenu(menu: Menu): Boolean = {
     getMenuInflater.inflate(R.menu.todolist_menu, menu)
     true
   }
@@ -59,7 +59,7 @@ class TodoListSActivity extends SActivity with OnItemClickListener {
     }
   }
 
-  def onItemClick(parent: AdapterView[_], view: View, position: Int, id: Long) {
+  def onItemClick(parent: AdapterView[_], view: View, position: Int, id: Long): Unit = {
     val task_id = mTaskList(position).id
     new Intent().put(task_id).start[TodoItemSActivity]
   }
