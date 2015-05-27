@@ -15,8 +15,8 @@ import com.spindance.demo.R
  */
 class TodoListSActivity extends SActivity with OnItemClickListener {
 
-  var mSortBy:SSpinner = null
-  var mListView:SListView = null
+  private var mSortBy:SSpinner = null
+  private var mListView:SListView = null
 
   private val mDateFormat: DateFormat = DateFormat.getDateInstance
   private var mTaskList: Array[TodoSTask] = Array()
@@ -61,7 +61,12 @@ class TodoListSActivity extends SActivity with OnItemClickListener {
     }
   }
 
-  def sortList = {
+  def onItemClick(parent: AdapterView[_], view: View, position: Int, id: Long) {
+    val task_id = mTaskList(position).id
+    new Intent().put(task_id).start[TodoItemSActivity]
+  }
+
+  private def sortList = {
 
     mTaskList = TodoSManager.getTodoList
     if (mSortBy.getSelectedItemPosition == 0) {
@@ -74,16 +79,11 @@ class TodoListSActivity extends SActivity with OnItemClickListener {
     mListView.setAdapter(new TodoTaskAdapter(mTaskList))
   }
 
-  def showNewTask = {
+  private def showNewTask = {
     startActivity(SIntent[TodoItemSActivity])
   }
 
-  def onItemClick(parent: AdapterView[_], view: View, position: Int, id: Long) {
-    val task_id = mTaskList(position).id
-    new Intent().put(task_id).start[TodoItemSActivity]
-  }
-
-  class TodoTaskAdapter(itemArray: Array[TodoSTask]) extends ArrayAdapter[TodoSTask](ctx, 0, itemArray) {
+  private class TodoTaskAdapter(itemArray: Array[TodoSTask]) extends ArrayAdapter[TodoSTask](ctx, 0, itemArray) {
     override def getView(position:Int, convertView: View, parent: ViewGroup): View = {
       var result = convertView
       if (result == null)

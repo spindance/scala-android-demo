@@ -32,7 +32,11 @@ class LoginSActivity extends SActivity {
     longToast(R.string.login_intro_msg)
   }
 
-  def performLogin(uname:String, pass:String) = {
+  /**
+   * Perform (phony) login to the task application. Loads dummy tasks into memory, and when completed
+   * launches the activity for viewing the task list
+   */
+  private def performLogin(uname:String, pass:String) = {
     val dlg = ProgressDialog.show(this, null, getString(R.string.busy_login), true, true)
 
     val f:Future[Array[TodoSTask]] = Future {
@@ -41,9 +45,7 @@ class LoginSActivity extends SActivity {
 
     f.onSuccess {
       case tasks => dlg.dismiss
-        for (task <- tasks) {
-          TodoSManager.addTask(task)
-        }
+        tasks.foreach(TodoSManager.addTask(_))
         startActivity(SIntent[TodoListSActivity])
         finish
     }
@@ -53,7 +55,7 @@ class LoginSActivity extends SActivity {
     }
   }
 
-  def loadTasks: Array[TodoSTask] = {
+  private def loadTasks: Array[TodoSTask] = {
     Thread.sleep(1000)   // fake some network delay
     Array(TodoSTask("Mow Lawn", 1, daysFromToday(2)),
       TodoSTask("Do Taxes", 3, daysFromToday(4)),
