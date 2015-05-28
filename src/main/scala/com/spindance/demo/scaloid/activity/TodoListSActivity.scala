@@ -9,14 +9,13 @@ import android.widget._
 import com.spindance.demo.scala.data.{TodoSManager, TodoSTask}
 import org.scaloid.common._
 import com.spindance.demo.R
+import language.postfixOps
 
-/**
- * Scaloid Activity for viewing list of TodoTasks
- */
+/** Scaloid Activity for viewing list of TodoTasks */
 class TodoListSActivity extends SActivity with OnItemClickListener {
 
-  private var mSortBy:SSpinner = null
-  private var mListView:SListView = null
+  private var mSortBy:SSpinner = _
+  private var mListView:SListView = _
 
   private val mDateFormat: DateFormat = DateFormat.getDateInstance
   private var mTaskList: Array[TodoSTask] = Array()
@@ -30,23 +29,29 @@ class TodoListSActivity extends SActivity with OnItemClickListener {
         STextView(R.string.sort_by).wrap
         mSortBy = SSpinner().wrap
       }.padding(0, 0, 0, 10 dip).orientation(HORIZONTAL)
-      mListView = SListView().fw.backgroundResource(R.drawable.rounded_white_rectangle).divider(R.color.black)
-                             .dividerHeight(1 dip).choiceMode(AbsListView.CHOICE_MODE_SINGLE)
+
+      mListView = SListView()
+        .fw
+        .backgroundResource(R.drawable.rounded_white_rectangle)
+        .divider(R.color.black)
+        .dividerHeight(1 dip)
+        .choiceMode(AbsListView.CHOICE_MODE_SINGLE)
+
     }.padding(pad).backgroundResource(R.color.background)
 
 
     val adapter = SArrayAdapter(getResources.getStringArray(R.array.sort_options)).dropDownStyle(_.textSize(20 dip).padding(15 dip))
     mSortBy.setAdapter(adapter)
-    mSortBy.onItemSelected(sortList)
+    mSortBy.onItemSelected(sortList())
 
     mListView.setOnItemClickListener(this)
   }
 
   onResume {
-    sortList
+    sortList()
   }
 
-  override def onCreateOptionsMenu(menu: Menu) = {
+  override def onCreateOptionsMenu(menu: Menu): Boolean = {
     getMenuInflater.inflate(R.menu.todolist_menu, menu)
     true
   }
@@ -54,40 +59,40 @@ class TodoListSActivity extends SActivity with OnItemClickListener {
   override def onOptionsItemSelected(item: MenuItem): Boolean = {
     item.getItemId match {
       case R.id.action_newtask =>
-        showNewTask
-        return true
+        showNewTask()
+        true
       case _ =>
-        return super.onOptionsItemSelected(item)
+        super.onOptionsItemSelected(item)
     }
   }
 
-  def onItemClick(parent: AdapterView[_], view: View, position: Int, id: Long) {
+  def onItemClick(parent: AdapterView[_], view: View, position: Int, id: Long): Unit = {
     val task_id = mTaskList(position).id
     new Intent().put(task_id).start[TodoItemSActivity]
   }
 
-  private def sortList = {
+  private def sortList() = {
 
     mTaskList = TodoSManager.getTodoList
     if (mSortBy.getSelectedItemPosition == 0) {
-      mTaskList = mTaskList.sortBy(_.dueDate)
-    }
-    else {
-      mTaskList = mTaskList.sortWith((lhs, rhs) => lhs.priority > rhs.priority)
+      mTaskList = mTaskList sortBy (_.dueDate)
+    } else {
+      mTaskList = mTaskList sortWith ((lhs, rhs) => lhs.priority > rhs.priority)
     }
 
     mListView.setAdapter(new TodoTaskAdapter(mTaskList))
   }
 
-  private def showNewTask = {
+  private def showNewTask() = {
     startActivity(SIntent[TodoItemSActivity])
   }
 
   private class TodoTaskAdapter(itemArray: Array[TodoSTask]) extends ArrayAdapter[TodoSTask](ctx, 0, itemArray) {
     override def getView(position:Int, convertView: View, parent: ViewGroup): View = {
       var result = convertView
-      if (result == null)
+      if (result == null) {
         result = LayoutInflater.from(parent.getContext).inflate(R.layout.todo_listitem, null)
+      }
 
       result.find[TextView](R.id.task_name).setText(getItem(position).taskName)
       result.find[TextView](R.id.due_date).setText(mDateFormat.format(getItem(position).dueDate))
